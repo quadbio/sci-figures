@@ -1,0 +1,11 @@
+{
+  "name": "sci-figures",
+  "version": "0.2.0",
+  "description": "Nature-style research figures and their legends: message and outline first, then layout, visual conventions, export to one PDF per figure with editable Arial text, legend writing and independent layout and legend reviews. Ships a skill and the scifig Python package.",
+  "author": {
+    "name": "quadbio"
+  },
+  "homepage": "https://github.com/quadbio/sci-figures",
+  "license": "MIT",
+  "keywords": ["figures", "matplotlib", "scanpy", "spatialdata", "nature", "figure-legends", "scverse"]
+}

@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+dist/
+.DS_Store
+.claude/settings.local.json
+.claude/worktrees/
+figures/
+.preview/
+data/

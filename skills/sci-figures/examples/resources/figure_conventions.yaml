@@ -1,0 +1,31 @@
+# Figure conventions shared by all figures of this repo, one section per kind (colors,
+# markers, ...).
+
+# Colors for objects without an adata.uns home. Chosen to avoid hues already used for cell
+# types (scanpy defaults) in the same figures.
+colors:
+  methods:
+    moscot: "#aa40fc"
+    WOT: "#8c564b"
+    TOME: "#17becf"
+  # generic cell types of schematics (not those of any data), apart from the hues above and
+  # the cell types' scanpy defaults
+  toy_cell_types:
+    A: "#e377c2"
+    B: "#b5bd61"
+    C: "#c49c94"
+    D: "#7f7f7f"
+  # stains of a morphology image (by their markers), composited on black, and alone in zooms
+  stains:
+    DAPI: "#4d8bff"
+    ATP1A1/CD45/E-cadherin: "#2bd47f"
+    αSMA/vimentin: "#e64ce6"
+  # tissue pieces contoured from an H&E, largest first: apart from H&E, slide and black zoom frames
+  tissue_pieces: ["#4477aa", "#228833", "#ee6677", "#aa3377"]
+  # transcripts of marker genes over the others in light grey, apart from the stains (Tol's
+  # colour-blind safe "vibrant" set)
+  transcript_genes:
+    EPCAM: "#ee7733"
+    MRC1: "#cc3311"
+    LTBP2: "#009988"
+    VWF: "#33bbee"
