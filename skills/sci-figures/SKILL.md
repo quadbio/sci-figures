@@ -18,6 +18,8 @@ Paths starting with `references/` or `examples/` are in this skill's folder; all
 - **Visual, not verbal.** The figure conveys its message through visual elements. Minimize text; prefer position, color, marks and direct labels to words.
 - **Words before pictures.** Format and outline are agreed with the user before anything is drawn.
 - **Reproducible.** One script per figure; it only loads and plots data computed beforehand.
+- **A restyle changes the look, not the content.** Keep a method's native encodings (PAGA node size = cell count)
+  and make style rules coexist with them.
 - **Ask when in doubt** about content, conventions or layout.
 - **Precedence:** the user's instructions, then this skill, then Nature's [research figure guide](https://research-figure-guide.nature.com/) and [formatting guide](https://www.nature.com/nature/for-authors/formatting-guide), consulted for anything not covered here.
 
@@ -32,7 +34,7 @@ Paths starting with `references/` or `examples/` are in this skill's folder; all
 ## Workflow
 
 ### 1. Plan
-Agree the format: main, Extended Data or supplementary; width and approximate height (`references/style.md`, Page). Then iterate on an outline until the user approves it, and save it next to the figure script:
+Agree the format: main, Extended Data or supplementary; width and approximate height (`references/style.md`, Page). Then iterate on an outline until the user approves it, and save it next to the figure script. When the user points at an earlier figure to build on, first list every block it has, from its code or PDF:
 ```markdown
 **Message:** <one sentence; becomes the legend title>
 **Story line:** <how the panels build the message, in order>
