@@ -4,7 +4,6 @@ requires = [ "hatchling" ]
 
 [project]
 name = "scifig"
-version = "0.2.0"
 description = "Style, mm layout, recurring elements and export for Nature-style research figures with editable text."
 readme = "README.md"
 license = "MIT"
@@ -16,6 +15,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
 ]
+dynamic = [ "version" ]
 dependencies = [ "matplotlib>=3.8" ]
 optional-dependencies.examples = [ "anndata", "pyyaml", "scanpy>=1.10" ]
 optional-dependencies.spatial-examples = [
@@ -36,6 +36,8 @@ urls.Source = "https://github.com/quadbio/sci-figures"
 dev = [ "pre-commit", "pytest" ]
 
 [tool.hatch]
+version.path = ".claude-plugin/plugin.json"
+version.pattern = '"version": "(?P<version>[^"]+)"'
 build.targets.wheel.packages = [ "src/scifig" ]
 
 [tool.ruff]

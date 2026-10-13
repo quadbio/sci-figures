@@ -3,12 +3,12 @@
 The machine steps (Arial, TeX) are once per machine. If one needs rights or software you don't have, tell the user.
 
 ## scifig
-In the figure repo's `pixi.toml`:
+In the figure repo's `pixi.toml` (its lock pins the commit):
 ```toml
 [pypi-dependencies]
-scifig = { git = "https://github.com/quadbio/sci-figures", tag = "v0.2.0" }
+scifig = { git = "https://github.com/quadbio/sci-figures" }
 ```
-With uv: `uv add "scifig @ git+https://github.com/quadbio/sci-figures@v0.2.0"`. For live edits to scifig, depend on a
+With uv: `uv add "scifig @ git+https://github.com/quadbio/sci-figures"`. For live edits to scifig, depend on a
 checkout instead: `scifig = { path = "../sci-figures", editable = true }`.
 
 ## Figure conventions
