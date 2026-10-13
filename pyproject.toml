@@ -4,7 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "scifig"
-version = "0.2.0"
+version = "0.2.1"
 description = "Style, mm layout, recurring elements and export for Nature-style research figures with editable text."
 readme = "README.md"
 license = "MIT"

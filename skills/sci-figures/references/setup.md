@@ -6,9 +6,9 @@ The machine steps (Arial, TeX) are once per machine. If one needs rights or soft
 In the figure repo's `pixi.toml`:
 ```toml
 [pypi-dependencies]
-scifig = { git = "https://github.com/quadbio/sci-figures", tag = "v0.2.0" }
+scifig = { git = "https://github.com/quadbio/sci-figures", tag = "v0.2.1" }
 ```
-With uv: `uv add "scifig @ git+https://github.com/quadbio/sci-figures@v0.2.0"`. For live edits to scifig, depend on a
+With uv: `uv add "scifig @ git+https://github.com/quadbio/sci-figures@v0.2.1"`. For live edits to scifig, depend on a
 checkout instead: `scifig = { path = "../sci-figures", editable = true }`.
 
 ## Figure conventions
