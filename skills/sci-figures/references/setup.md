@@ -30,7 +30,7 @@ its own license; `scifig.fonts` fetches conda-forge's `mscorefonts` package.
 Equations are typeset by LaTeX (`usetex=True`), which needs `latex` and `dvipng` on `PATH`. A full TeX Live or MacTeX
 has everything; on a cluster, look for a module (`module spider texlive`). Otherwise TinyTeX, no root needed:
 ```bash
-curl -sL "https://yihui.org/tinytex/install-bin-unix.sh" | sh   # into ~/.TinyTeX; TINYTEX_DIR=<dir> to keep it out of home
+curl -sL "https://yihui.org/tinytex/install-bin-unix.sh" | sh   # into ~/.TinyTeX; elsewhere: ... | TINYTEX_DIR=<dir> sh
 tlmgr install newtx newtxsf helvetic psnfss cm-super type1cm underscore geometry dvipng
 ```
 After switching TeX installations, clear matplotlib's cache (`rm -r ~/.cache/matplotlib/tex.cache`). Equations embed
