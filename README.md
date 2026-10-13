@@ -50,10 +50,8 @@ For live package edits in a figure repo, depend on the checkout instead:
 
 ## Release
 
-Bump `version` in `pyproject.toml`, `.claude-plugin/plugin.json` and the pin in
-`skills/sci-figures/references/setup.md` (tests check they agree).
-That is the release: the marketplace follows `main`, users update when the version changes, and the merge tags
-`vX.Y.Z`, which figure repos pin.
+Bump `version` in `.claude-plugin/plugin.json` and merge: the marketplace follows `main`, and users update when the
+version changes.
 
 ## License
 
