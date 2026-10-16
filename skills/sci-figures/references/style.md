@@ -18,7 +18,7 @@
 - A panel's keys (legends, colorbars, size keys, scale bars) form one block: aligned on one edge, equally spaced, filling the space the layout gives them. A key aligns with the plot it belongs to, not with the panel letter.
 
 ## Sharing
-- Panels showing the same quantity share one axes where possible; otherwise they use the same limits and label only the outer axes.
+- Plots showing the same quantity share one axes where possible; otherwise they use the same limits. Within a panel only the outer axes are labelled; each lettered panel labels its own.
 - A shared key is drawn once, with the first panel (in reading order) that uses it.
 - One key per encoding (color, shape, size), labelled with what it shows ("Cell type") where space allows, rather than repeating it in a title.
 
@@ -51,6 +51,7 @@
 - Left and bottom spines, outward ticks, no grid, no background.
 - 3 to 5 ticks at round numbers; bar charts start at 0.
 - Time axes are metrically faithful (weeks 2, 3, 4, 6 on a linear axis), never categorical.
+- A metric with a better direction ends its axis label with an arrow (↑ or ↓), defined once in the legend, rather than "higher is better" text. On a y label rotated to read upwards the glyph turns too: write → for up and ← for down.
 
 ## Plot types
 - **Embeddings:** `sf.embedding_axes`; when the same embedding repeats, its indicator appears once.
