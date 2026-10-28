@@ -3,7 +3,7 @@ build-backend = "hatchling.build"
 requires = [ "hatchling" ]
 
 [project]
-name = "scifig"
+name = "sci-figures"
 description = "Style, mm layout, recurring elements and export for Nature-style research figures with editable text."
 readme = "README.md"
 license = "MIT"
@@ -22,7 +22,7 @@ optional-dependencies.spatial-examples = [
   "cellcharter>=0.3.7",
   "geopandas",
   "lightning",
-  "scifig[examples]",
+  "sci-figures[examples]",
   "shapely>=2",
   "sopa>=2.2",
   "spatialdata>=0.8",

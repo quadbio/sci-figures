@@ -3,13 +3,13 @@
 The machine steps (Arial, TeX) are once per machine. If one needs rights or software you don't have, tell the user.
 
 ## scifig
-In the figure repo's `pixi.toml` (its lock pins the commit):
+The PyPI package `sci-figures` (`import scifig`). In the figure repo's `pixi.toml`:
 ```toml
 [pypi-dependencies]
-scifig = { git = "https://github.com/quadbio/sci-figures" }
+sci-figures = ">=0.3"
 ```
-With uv: `uv add "scifig @ git+https://github.com/quadbio/sci-figures"`. For live edits to scifig, depend on a
-checkout instead: `scifig = { path = "../sci-figures", editable = true }`.
+With uv: `uv add sci-figures`. For live edits to scifig, depend on a checkout instead:
+`sci-figures = { path = "../sci-figures", editable = true }`.
 
 ## Figure conventions
 `resources/figure_conventions.yaml` (`style.md`, Color and marks; an example in `examples/resources/`) must be

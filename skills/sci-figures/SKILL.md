@@ -60,6 +60,7 @@ sf.embedding_axes(ax)                            # UMAP1/UMAP2 arrows instead of
 sf.colorbar(mappable, cax, label="Expression")   # labelled at its ends
 sf.scale_bar(ax, 100, "µm", data_unit_size=px_um)
 sf.badge(ax, x, y, color, label="3")             # an entity's mark
+ax.legend(handles=[sf.badge_handle(color, id="3", label="Forebrain")])  # the same mark as a key entry
 sf.panel_letter(fig, "a", left, top, title="...", over=ax)  # title centered over ax
 sf.save(fig, "figures/fig2_atlas", legend="figures/fig2_atlas_legend.md")
 ```
