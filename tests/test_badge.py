@@ -14,7 +14,7 @@ def _extent(marker):
     """Width of the drawn marker, in points."""
     fig = sf.new_figure(89, 60)
     ax = sf.add_axes_mm(fig, 5, 5, 40, 40)
-    line, _ = sf.badge(ax, 0.5, 0.5, "#1f77b4", label="7", marker=marker)
+    line, _ = sf.badge(ax, 0.5, 0.5, "#1f77b4", id="7", marker=marker)
     fig.canvas.draw()
     path = line._marker.get_path().transformed(line._marker.get_transform())
     return line.get_marker(), path.get_extents().width * line.get_markersize()
@@ -51,7 +51,7 @@ def test_blended_transform_places_badge_beside_tick():
     ax = sf.add_axes_mm(fig, 20, 5, 40, 40)
     ax.barh(range(3), [1, 2, 3])
     trans = ax.get_yaxis_transform()
-    line, text = sf.badge(ax, -0.1, 2, "#1f77b4", label="3", transform=trans)
+    line, text = sf.badge(ax, -0.1, 2, "#1f77b4", id="3", transform=trans)
     fig.canvas.draw()
     expected = trans.transform((-0.1, 2))
     assert np.allclose(line.get_transform().transform(line.get_xydata())[0], expected)

@@ -112,7 +112,7 @@ def badge(
     x: float,
     y: float,
     color,
-    label: str | int | None = None,
+    id: str | int | None = None,
     diameter: float = 3.0,
     transform=None,
     marker: str = "o",
@@ -147,11 +147,11 @@ def badge(
         scaley=False,
     )
     text = None
-    if label is not None:
+    if id is not None:
         text = ax.text(
             x,
             y,
-            str(label),
+            str(id),
             transform=transform,
             ha="center",
             va="center_baseline",

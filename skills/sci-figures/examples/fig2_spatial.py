@@ -376,7 +376,7 @@ ax_umap.collections[0].set_rasterized(True)
 sf.embedding_axes(ax_umap)
 umap = pd.DataFrame(kept.obsm["X_umap"], index=kept.obs_names).groupby(kept.obs["leiden"].to_numpy()).median()
 for cl, (x, y) in umap.iterrows():
-    mark, _ = sf.badge(ax_umap, x, y, cl_colors[cl], label=cl)
+    mark, _ = sf.badge(ax_umap, x, y, cl_colors[cl], id=cl)
     mark.set_markeredgecolor("white")
     mark.set_markeredgewidth(LW)
 
@@ -426,7 +426,7 @@ ax_dot.set_yticks([])
 for s in ax_dot.spines.values():
     s.set_visible(False)
 for i, cl in enumerate(order):
-    sf.badge(ax_dot, -1.1, i, cl_colors[cl], label=cl, diameter=2.1)
+    sf.badge(ax_dot, -1.1, i, cl_colors[cl], id=cl, diameter=2.1)
 # the annotation: a color bar per cell type over its clusters, named on its right
 for ct, rows in pd.Series(range(n_r), index=[annot[cl] for cl in order]).groupby(level=0, sort=False):
     ax_dot.add_patch(
@@ -558,7 +558,7 @@ for i, n in enumerate(names):
         (113.5 - comp_left) / comp_w,
         i,
         niche_colors[n],
-        label=n,
+        id=n,
         marker="D",
         diameter=2.6,
         transform=row_label,
