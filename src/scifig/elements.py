@@ -1,11 +1,17 @@
-"""Recurring visual elements: embedding axis arrows, end-labelled colorbars, scale bars, badges."""
+"""Recurring visual elements: embedding axis arrows, end-labelled colorbars, scale bars, badges and badge keys."""
 
 from __future__ import annotations
 
 from matplotlib.axes import Axes
 from matplotlib.colorbar import Colorbar
 from matplotlib.colors import to_rgb
+from matplotlib.font_manager import FontProperties
+from matplotlib.legend import Legend
+from matplotlib.legend_handler import HandlerBase
+from matplotlib.lines import Line2D
 from matplotlib.markers import MarkerStyle
+from matplotlib.text import Text
+from matplotlib.textpath import TextPath
 
 from .layout import MM, _size_mm
 from .style import LINEWIDTHS, SIZES
@@ -88,26 +94,43 @@ def scale_bar(
     return bar
 
 
+def ink_on(color) -> str:
+    """Black or white, whichever reads on ``color``: black above WCAG relative luminance 0.179."""
+    r, g, b = (v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in to_rgb(color))
+    return "black" if 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 else "white"
+
+
+def _filled(marker: str) -> MarkerStyle:
+    style = MarkerStyle(marker)
+    if not style.is_filled():
+        raise ValueError(f"A badge is a filled shape; {marker!r} is a line marker.")
+    return style
+
+
 def badge(
     ax: Axes,
     x: float,
     y: float,
     color,
-    label: str | int | None = None,
+    id: str | int | None = None,
     diameter: float = 3.0,
     transform=None,
     marker: str = "o",
+    fontsize: float | None = None,
+    edgecolor=None,
 ):
     """An entity's mark: a filled shape (``diameter`` mm) with an optional centred ID.
 
-    The ID is black or white by contrast. ``transform`` defaults to data coordinates. Returns ``(marker, text)``.
+    The ID is ``fontsize`` pt (default ``SIZES["min"]``), black or white by contrast (`ink_on`).
+    ``edgecolor`` outlines the shape, e.g. over points of its own color. ``transform`` defaults to
+    data coordinates; axes or blended transforms (``ax.get_yaxis_transform()``) place a badge
+    beside the data. Returns ``(marker, text)``.
 
     ``marker`` is a filled matplotlib marker, so different kinds of entity can carry different
     shapes. At one ``diameter``, a diamond (``"D"``) leaves the ID as much room as a circle
     (equal inscribed square) but its tips reach 1.41x further; space neighbouring badges for that.
     """
-    if not MarkerStyle(marker).is_filled():
-        raise ValueError(f"A badge is a filled shape; {marker!r} is a line marker.")
+    _filled(marker)
     transform = transform or ax.transData
     (marker,) = ax.plot(
         [x],
@@ -116,25 +139,78 @@ def badge(
         ls="",
         markersize=diameter * MM * 72,
         markerfacecolor=color,
-        markeredgecolor="none",
+        markeredgecolor="none" if edgecolor is None else edgecolor,
+        markeredgewidth=LINEWIDTHS["axis"],
         transform=transform,
         clip_on=False,
         scalex=False,
         scaley=False,
     )
     text = None
-    if label is not None:
-        r, g, b = (v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in to_rgb(color))
-        ink = "black" if 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 else "white"  # WCAG luminance
+    if id is not None:
         text = ax.text(
             x,
             y,
-            str(label),
+            str(id),
             transform=transform,
             ha="center",
             va="center_baseline",
-            fontsize=SIZES["min"],
-            color=ink,
+            fontsize=SIZES["min"] if fontsize is None else fontsize,
+            color=ink_on(color),
             clip_on=False,
         )
     return marker, text
+
+
+class BadgeHandle:
+    """A legend entry drawn as a badge; make one with `badge_handle`."""
+
+    def __init__(self, color, id=None, marker="o", edgecolor=None, label=""):
+        _filled(marker)
+        self.color, self.id, self.marker, self.edgecolor, self.label = color, id, marker, edgecolor, label
+
+    def get_label(self) -> str:
+        """The legend's text for this entry."""
+        return self.label
+
+
+def badge_handle(color, id: str | int | None = None, *, marker: str = "o", label: str = "", edgecolor=None):
+    """Legend handle for `badge`'s mark: ``ax.legend(handles=[sf.badge_handle(color, id="5", label="Forebrain")])``.
+
+    The badge fills the legend's handle box (``handleheight`` and ``handlelength``; matplotlib
+    takes a descent off the height). The ID takes the legend's font size, shrunk only where two
+    digits would not fit the badge; at ``handleheight=2`` and above they fit.
+    """
+    return BadgeHandle(color, id, marker, edgecolor, label)
+
+
+class _HandlerBadge(HandlerBase):
+    def create_artists(self, legend, orig_handle, xdescent, ydescent, width, height, fontsize, trans):
+        h = orig_handle
+        style = _filled(h.marker)
+        extent = style.get_path().transformed(style.get_transform()).get_extents()
+        edge = 0 if h.edgecolor is None else LINEWIDTHS["axis"]
+        size = (min(width, height) - edge) / max(extent.width, extent.height)  # markersize, pt
+        centre = (width / 2 - xdescent, height / 2 - ydescent)
+        mark = Line2D(
+            [centre[0]],
+            [centre[1]],
+            marker=h.marker,
+            ls="",
+            markersize=size,
+            markerfacecolor=h.color,
+            markeredgecolor="none" if h.edgecolor is None else h.edgecolor,
+            markeredgewidth=LINEWIDTHS["axis"],
+            transform=trans,
+        )
+        if h.id is None:
+            return [mark]
+        # The ID's room is the square inscribed in a circle of the markersize, as in `badge`.
+        ink = TextPath((0, 0), "00", prop=FontProperties(size=fontsize)).get_extents()
+        idsize = min(fontsize, fontsize * size / 2**0.5 / max(ink.width, ink.height))
+        text = Text(*centre, str(h.id), ha="center", va="center_baseline", fontsize=idsize, color=ink_on(h.color))
+        text.set_transform(trans)
+        return [mark, text]
+
+
+Legend.update_default_handler_map({BadgeHandle: _HandlerBadge()})

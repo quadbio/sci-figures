@@ -46,12 +46,13 @@ Xenium dataset (`fig2_spatial_outline.md`, Source): run `fig2_spatial_data.py` (
 `fig2_spatial.py`.
 
 For live package edits in a figure repo, depend on the checkout instead:
-`scifig = { path = "../sci-figures", editable = true }`.
+`sci-figures = { path = "../sci-figures", editable = true }`.
 
 ## Release
 
 Bump `version` in `.claude-plugin/plugin.json` and merge: the marketplace follows `main`, and users update when the
-version changes.
+version changes. On that merge, `release.yaml` publishes the package to PyPI as `sci-figures`, then tags `v<version>` and
+creates a GitHub Release.
 
 ## License
 
