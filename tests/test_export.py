@@ -67,3 +67,15 @@ def test_title_on_the_letter_line_centered_over_its_plot():
     assert abs((tb.x0 + tb.x1) / 2 - (ab.x0 + ab.x1) / 2) < tol
     with pytest.raises(ValueError, match="over"):
         sf.panel_letter(fig, "b", 1, 1, title="Title")
+
+
+def test_dense_collections_rasterized(tmp_path, capsys):
+    fig = sf.new_figure(89, 50)
+    ax = sf.add_axes_mm(fig, 5, 5, 40, 40)
+    rng = np.random.default_rng(0)
+    dense = ax.scatter(*rng.random((2, 1000)))
+    sparse = ax.scatter(*rng.random((2, 10)))
+    mesh = ax.pcolormesh(rng.random((60, 60)))
+    sf.save(fig, tmp_path / "f")
+    assert dense.get_rasterized() and mesh.get_rasterized() and not sparse.get_rasterized()
+    assert "Rasterized 2 collection(s)" in capsys.readouterr().out

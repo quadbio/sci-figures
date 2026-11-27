@@ -7,6 +7,7 @@ import shutil
 from pathlib import Path
 
 import matplotlib as mpl
+from matplotlib.collections import Collection, QuadMesh
 from matplotlib.figure import Figure
 
 from .layout import MM, _size_mm
@@ -14,6 +15,28 @@ from .style import FONT, RASTER_DPI
 
 MAX_PDF_MB = 5.0
 DPI_STEPS = (RASTER_DPI, 900, 600, 450, 300)  # tried in order; 300 is Nature's minimum
+RASTER_MIN_VERTICES = 10_000  # collections drawing more vertices are rasterized: about 400 points, or long outlines
+
+
+def _vertices(c: Collection) -> int:
+    """Vertices a collection draws: its marker's times its points for a scatter, else its paths'."""
+    if isinstance(c, QuadMesh):
+        h, w = c.get_coordinates().shape[:2]
+        return (h - 1) * (w - 1) * 4
+    paths, n_offsets = c.get_paths(), len(c.get_offsets())
+    if len(paths) == 1 and n_offsets > 1:
+        return len(paths[0].vertices) * n_offsets
+    return sum(len(p.vertices) for p in paths)
+
+
+def _rasterize_dense(fig: Figure) -> int:
+    """Rasterize each collection drawing more than ``RASTER_MIN_VERTICES`` vertices; return their number."""
+    n = 0
+    for c in fig.findobj(Collection):
+        if _vertices(c) > RASTER_MIN_VERTICES and not c.get_rasterized():
+            c.set_rasterized(True)
+            n += 1
+    return n
 
 
 def _scale_bars(fig: Figure) -> list[str]:
@@ -40,8 +63,9 @@ def _scale_bars(fig: Figure) -> list[str]:
 def save(fig: Figure, path: str | Path, legend: str | Path | None = None, dpi: int | None = None) -> Path:
     """Write ``path`` as PDF and ``<dir>/.preview/<name>.png``; print size, raster dpi and scale bars.
 
-    Rasters are written at the first of ``DPI_STEPS`` that keeps the PDF within ``MAX_PDF_MB``
-    (or at ``dpi``). Raises if the PDF holds fonts other than Arial or Type 3 fonts, which are
+    Collections drawing more than ``RASTER_MIN_VERTICES`` vertices (dense scatters, cell outlines)
+    are rasterized. Rasters are written at the first of ``DPI_STEPS`` that keeps the PDF within
+    ``MAX_PDF_MB`` (or at ``dpi``). Raises if the PDF holds fonts other than Arial or Type 3 fonts, which are
     not editable. ``legend``, the legend kept with the script, is copied next to the PDF as
     ``<name>_legend.md``.
     """
@@ -52,6 +76,8 @@ def save(fig: Figure, path: str | Path, legend: str | Path | None = None, dpi: i
         if Path(legend).resolve() != dest.resolve():
             shutil.copyfile(legend, dest)
     report = _scale_bars(fig)
+    if n := _rasterize_dense(fig):
+        report.append(f"Rasterized {n} collection(s) of more than {RASTER_MIN_VERTICES} vertices.")
     for d in [dpi] if dpi else DPI_STEPS:
         with mpl.rc_context({"pdf.use14corefonts": False}):  # so Type 1 fonts can only come from LaTeX
             fig.savefig(path, dpi=d)
