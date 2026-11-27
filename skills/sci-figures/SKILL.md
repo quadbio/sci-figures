@@ -11,7 +11,7 @@ description: >-
 
 You write the plotting code (matplotlib, seaborn, scanpy); this skill says what the result must achieve. The `scifig` package supplies only the style, a few recurring elements and the export.
 
-Paths starting with `references/` or `examples/` are in this skill's folder; all others (`figures/`, `resources/`, scripts) are in the repository you are working in.
+Paths starting with `references/` or `examples/` are in this skill's folder; all others (`resources/`, scripts) are in the repository you are working in. `<figures>` is where that repository's analysis conventions put figures, `figures/` if it has none.
 
 ## Principles
 - **One message.** A figure makes one point along one story line. The message is the legend's title; every panel advances the story.
@@ -64,7 +64,7 @@ sf.scale_bar(ax, 100, "µm", data_unit_size=px_um)
 sf.badge(ax, x, y, color, id="3")                # an entity's mark
 ax.legend(handles=[sf.badge_handle(color, id="3", label="Forebrain")])  # the same mark as a key entry
 sf.panel_letter(fig, "a", left, top, title="...", over=ax)  # title centered over ax
-sf.save(fig, "figures/fig2_atlas", legend="figures/fig2_atlas_legend.md")
+sf.save(fig, FIGURES / "fig2_atlas", legend=FIGURES / "fig2_atlas_legend.md")  # FIGURES: <figures>
 ```
 If `scifig`, Arial or LaTeX (for equations) is missing, follow `references/setup.md` or tell the user.
 
@@ -81,8 +81,8 @@ On a near-final draft, run both reviews in `references/review.md` in parallel; a
 Whenever you show the user a figure (drafts included), show the PDF, not the preview, with its current legend in the same message. At the end, send the PDF and the legend file with the size and raster resolution `sf.save` prints, and list the review findings you declined, each with its reason.
 
 ## Output
-- `figures/<name>.pdf`, named `fig<N>_<topic>` with figures numbered in reading order (`fig1_overview` ... `figN_<topic>`), so a discussion can name one: vector, with text as editable Arial, except images and dense marks: `sf.save` rasterizes every collection drawing more than 10,000 vertices (scatters of about 400 points or more, detailed outlines), whatever drew it. It writes rasters at 1200 dpi, lowered to no less than 300 dpi to keep the PDF within 5 MB.
-- `figures/<name>_legend.md`: the legend, next to the PDF (`sf.save(..., legend=)` copies it there if it is kept elsewhere, e.g. next to the script).
-- `figures/.preview/<name>.png`: for you and the reviewers only; never show or send it to the user.
+- `<figures>/<name>.pdf`, named `fig<N>_<topic>` with figures numbered in reading order (`fig1_overview` ... `figN_<topic>`), so a discussion can name one: vector, with text as editable Arial, except images and dense marks: `sf.save` rasterizes every collection drawing more than 10,000 vertices (scatters of about 400 points or more, detailed outlines), whatever drew it. It writes rasters at 1200 dpi, lowered to no less than 300 dpi to keep the PDF within 5 MB.
+- `<figures>/<name>_legend.md`: the legend, next to the PDF (`sf.save(..., legend=)` copies it there if it is kept elsewhere, e.g. next to the script).
+- `<figures>/.preview/<name>.png`: for you and the reviewers only; never show or send it to the user.
 
 In Illustrator, each axes sits in a clipping mask (Object > Clipping Mask > Release). Changes made there are not reproduced by the script; limit them to what the script cannot do (e.g. illustrations) and tell the user which parts they are.
