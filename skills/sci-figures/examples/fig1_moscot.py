@@ -71,7 +71,7 @@ runtime = {m: 0.01 * n_cells**e for m, e in zip(methods, (0.8, 1.0, 0.9), strict
 
 # --- colors: adata.uns for categorical obs, the repo conventions file for everything else ---
 conventions = yaml.safe_load((Path(__file__).parent / "resources/figure_conventions.yaml").read_text())["colors"]
-m_colors, t_colors = conventions["methods"], conventions["toy_cell_types"]
+m_colors, t_colors = conventions["temporal_mapping_methods"], conventions["toy_cell_types"]
 
 
 def key(ax, colors, title=None, loc="upper left", anchor=(1.03, 1), markers=None, **kw):

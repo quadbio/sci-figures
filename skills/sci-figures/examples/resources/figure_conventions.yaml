@@ -4,7 +4,8 @@
 # Colors for objects without an adata.uns home. Chosen to avoid hues already used for cell
 # types (scanpy defaults) in the same figures.
 colors:
-  methods:
+  # methods that map cells across time points
+  temporal_mapping_methods:
     moscot: "#aa40fc"
     WOT: "#8c564b"
     TOME: "#17becf"

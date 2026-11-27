@@ -21,7 +21,8 @@ Ask Claude for a figure, a panel or a legend in the repo that holds the figure s
    layout and legend reviews in parallel.
 4. It shows you the PDF with its legend and lists the review findings it declined.
 
-Colors and marks shared across a paper's figures live in the repo's `resources/figure_conventions.yaml`.
+Colors and marks shared across a paper's figures live in the data's own store where it has a place for them, and
+otherwise in the repo's `resources/figure_conventions.yaml`, which can hold a section per dataset.
 
 ## Install
 
