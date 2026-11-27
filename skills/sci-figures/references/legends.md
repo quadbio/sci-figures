@@ -5,7 +5,7 @@ Legends follow Nature's copy-edited style, whatever the target journal; one lege
 ## Figure and legend
 - The figure alone conveys the message: axis labels, the marks of `style.md` (Color and marks), and keys for every encoding the message depends on, however simple. (Nature prefers keys in the legend "where possible"; for keys the message depends on, it isn't.)
 - The legend gives technical details and the exact definition of every visual element: n, tests, selection rules, omitted groups and why, and conventional elements recognised without a key (median and IQR lines, whiskers, error bars).
-- It states what the plot hides. Check the code and data for non-linear or broken axes and color scales (and where they change), values beyond the axis limits or colorbar ends, capped marker sizes, jitter, and scales shared or not.
+- It states what the plot hides, including an image's display range and how its channels merge. Check the code and data for non-linear or broken axes and color scales (and where they change), values beyond the axis limits or colorbar ends, capped marker sizes, jitter, and scales shared or not.
 - The legend adds precision, not repetition: where a key says it fully, don't repeat it; where it gives the gist ("Canonical gene"), give the definition.
 - Counts go in the legend; a definition central to the message (e.g. a score's genes) in the figure.
 - Never describe a filter or masking rule that removed nothing; state the actual range.

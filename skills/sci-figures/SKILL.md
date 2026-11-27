@@ -49,6 +49,8 @@ Agree the format: main, Extended Data or supplementary; width and approximate he
 Cut panels that don't advance the message. Resolve open questions (n, tests, subsets), then compute and save all plotted data.
 
 ### 2. Build
+Prefer scverse's plotting functions (scanpy, spatialdata-plot) where they apply, restyled with scifig; any deviation needs a reason, stated in the script.
+
 Find the repo's colors (`references/style.md`, Color and marks) and the conventions of existing figure scripts; see `examples/fig1_moscot.py` (plots and a schematic) and `examples/fig2_spatial.py` (images and spatial data). The recurring elements:
 ```python
 import scanpy as sc  # if used
@@ -79,7 +81,7 @@ On a near-final draft, run both reviews in `references/review.md` in parallel; a
 Whenever you show the user a figure (drafts included), show the PDF, not the preview, with its current legend in the same message. At the end, send the PDF and the legend file with the size and raster resolution `sf.save` prints, and list the review findings you declined, each with its reason.
 
 ## Output
-- `figures/<name>.pdf`, named `fig<N>_<topic>` with figures numbered in reading order (`fig1_overview` ... `figN_<topic>`), so a discussion can name one: vector, with text as editable Arial, except dense scatters and images, which you rasterize (`rasterized=True`). `sf.save` writes rasters at 1200 dpi, lowered to no less than 300 dpi to keep the PDF within 5 MB.
+- `figures/<name>.pdf`, named `fig<N>_<topic>` with figures numbered in reading order (`fig1_overview` ... `figN_<topic>`), so a discussion can name one: vector, with text as editable Arial, except images and dense marks: `sf.save` rasterizes every collection drawing more than 10,000 vertices (scatters of about 400 points or more, detailed outlines), whatever drew it. It writes rasters at 1200 dpi, lowered to no less than 300 dpi to keep the PDF within 5 MB.
 - `figures/<name>_legend.md`: the legend, next to the PDF (`sf.save(..., legend=)` copies it there if it is kept elsewhere, e.g. next to the script).
 - `figures/.preview/<name>.png`: for you and the reviewers only; never show or send it to the user.
 

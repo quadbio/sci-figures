@@ -131,8 +131,6 @@ sc.pl.embedding(
 )  # fixed scale: the colorbar ends are exactly 0 and 1
 ax_b2.margins(0.02)  # the view of the first plot
 ax_b2.axis("off")
-for ax in (ax_b, ax_b2):
-    ax.collections[0].set_rasterized(True)
 cax = sf.add_axes_mm(fig, 151.5, 44, 24, 1.5)
 sf.colorbar(ax_b2.collections[0], cax, label="Beta fate probability", ends=("0", "1"), orientation="horizontal")
 fig.canvas.draw()

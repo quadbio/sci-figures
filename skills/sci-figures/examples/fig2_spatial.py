@@ -42,7 +42,10 @@ for name in ("tissue", "niches"):  # sopa's tissue pieces; the niche polygons
     sdata.shapes[name] = sd.read_zarr(DATA / f"{name}.zarr")[name]
 MIN_TRANSCRIPTS = 10  # as in fig2_spatial_data.py
 
-conventions = yaml.safe_load((Path(__file__).parent / "resources/figure_conventions.yaml").read_text())["colors"]
+# this example's own conventions file, beside the script (a repo keeps its file where style.md, Color and marks, says)
+conventions_file = yaml.safe_load((Path(__file__).parent / "resources/figure_conventions.yaml").read_text())
+conventions = conventions_file["colors"]
+STAIN_PERCENTILES = conventions_file["image_display"]["stain_percentiles"]
 stain_colors = conventions["stains"]  # by marker, in the image's channel order
 CHANNELS = dict(zip(stain_colors, ["DAPI", "ATP1A1/CD45/E-Cadherin", "AlphaSMA/Vimentin"], strict=True))
 MARKS = dict(zip(stain_colors, ["Nuclei", "Membrane", "Cytoplasm"], strict=True))  # what each stain marks
@@ -108,25 +111,23 @@ HALO = [pe.withStroke(linewidth=ZOOM_LW + 1.0, foreground="white")]  # zooms: bl
 
 def show(render, ax, b):
     """Draw a spatialdata-plot rendering into ``ax`` without its own title, keys or frame, view
-    ``b``, dense layers rasterized."""
+    ``b``."""
     render.pl.show(ax=ax, title="", coordinate_systems="global", frameon=False, colorbar=False, legend_loc=None)
     for child in ax.get_children():  # the second legend drawn for outlines colored by a column
         if isinstance(child, Legend):
             child.remove()
     ax.set_xlim(b[0], b[2])  # the element's extent otherwise; cells crossing the crop widen it
     ax.set_ylim(b[3], b[1])  # image orientation: y down
-    for c in ax.collections:
-        c.set_rasterized(True)
 
 
-def stains(markers, q=99.5):
-    """render_images arguments for ``markers``: each scaled from zero to its ``q``th percentile in
-    the region and colored black to its color, as in the composite."""
+def stains(markers):
+    """render_images arguments for ``markers``: each scaled linearly between STAIN_PERCENTILES of its
+    intensities in the region and colored black to its color, as in the composite."""
     img = roi["morphology_focus"]["scale0"].image
     return {
         "channel": [CHANNELS[m] for m in markers],
         "palette": [stain_colors[m] for m in markers],
-        "norm": [Normalize(0, np.percentile(img.sel(c=CHANNELS[m]).values, q)) for m in markers],
+        "norm": [Normalize(*np.percentile(img.sel(c=CHANNELS[m]).values, STAIN_PERCENTILES)) for m in markers],
         "scale": "scale0",
     }
 
@@ -372,7 +373,6 @@ ax_qc[0].yaxis.label.set_y(((p0.y1 + p2.y0) / 2 - p0.y0) / p0.height)
 # badge, outlined to stand out from its own cluster
 kept = cells[cells.obs["analysed"].to_numpy()].copy()
 sc.pl.embedding(kept, "umap", color="leiden", ax=ax_umap, show=False, legend_loc=None, title="", size=0.5)
-ax_umap.collections[0].set_rasterized(True)
 sf.embedding_axes(ax_umap)
 umap = pd.DataFrame(kept.obsm["X_umap"], index=kept.obs_names).groupby(kept.obs["leiden"].to_numpy()).median()
 for cl, (x, y) in umap.iterrows():

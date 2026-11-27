@@ -30,3 +30,8 @@ colors:
     MRC1: "#cc3311"
     LTBP2: "#009988"
     VWF: "#33bbee"
+
+# Image display: each stain scaled linearly between these percentiles of its intensities in the
+# region shown (1st: the stains have no zero background)
+image_display:
+  stain_percentiles: [1, 99.5]
