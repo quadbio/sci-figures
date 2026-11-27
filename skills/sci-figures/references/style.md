@@ -69,7 +69,7 @@
 
 ## Color and marks
 - Each entity keeps one mark across the paper: its color, plus an ID if it has one (e.g. its cluster number in a circle, `sf.badge`), wherever it appears (row labels, titles, keys via `sf.badge_handle`, small multiples). Different kinds of entity (e.g. the clusters of two annotations) may differ in shape (`sf.badge(marker=)`). A mark drawn over data stands out from it, e.g. an outlined badge over points of its own color. A color mark ties a label to a plot only if the plot is drawn in that color. Separate objects of one kind drawn together (e.g. tissue pieces) get distinct colors and a key.
-- Conventions are defined once per repo, in `resources/figure_conventions.yaml` (git-tracked; ask before creating or extending it), one section per kind: `colors` for objects without an `adata.uns` home, such as methods; `markers` for the shape of each kind of entity or role; others as the repo needs.
+- Conventions are defined once per repo, in its figure conventions file: where the repo's docs say, following their rules for it; otherwise `resources/figure_conventions.yaml` (git-tracked; ask before creating or extending it), one section per kind: `colors` for objects without an `adata.uns` home, such as methods; `markers` for the shape of each kind of entity or role; others as the repo needs.
 - Colors come, in this order, from `adata.uns[f"{key}_colors"]` for categorical observations; the conventions file; scanpy's defaults for new variables, then stored in `adata.uns` (tell the user to save the AnnData). On a clash, recolor the object without a canonical home.
 - Different variables get distinct colors from an accessible palette. Above about ten categories, group them or label them directly.
 
