@@ -3,7 +3,7 @@
 Two subagents that have not seen the conversation, run in parallel. Pass each only file paths, never summaries or explanations of the figure. They report; they do not edit.
 
 ## Layout review
-- `PREVIEW`: `figures/.preview/<name>.png`
+- `PREVIEW`: `<figures>/.preview/<name>.png`
 - `OUTLINE`: the approved outline
 - `CONVENTIONS`: the absolute path of `references/style.md` in this skill
 
@@ -29,9 +29,9 @@ location in the figure and suggested fix. Write "No issues" for a category witho
 ```
 
 ## Legend review
-- `LEGEND`: `figures/<name>_legend.md`
+- `LEGEND`: `<figures>/<name>_legend.md`
 - `SCRIPTS`: the figure script and every script or notebook that computed plotted data (follow imports and file reads back to the analysis step)
-- `PREVIEW`: `figures/.preview/<name>.png`
+- `PREVIEW`: `<figures>/.preview/<name>.png`
 - `CONVENTIONS`: the absolute path of `references/legends.md` in this skill
 - `AUTHOR_CONVENTIONS`: a file quoting, verbatim, the rules the user stated for this paper's legends (omit if none)
 
