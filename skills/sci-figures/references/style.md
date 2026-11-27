@@ -18,7 +18,7 @@
 - A panel's keys (legends, colorbars, size keys, scale bars) form one block: aligned on one edge, equally spaced, filling the space the layout gives them. A key aligns with the plot it belongs to, not with the panel letter.
 
 ## Sharing
-- Plots showing the same quantity share one axes where possible; otherwise they use the same limits. Likewise for color: plots compared side by side share one color scale, its limits computed over all of them and passed to each (`vmin`/`vmax` or `norm`); a limit computed per plot (scanpy's `vmax="p99"`) differs between them. Within a panel only the outer axes are labelled; each lettered panel labels its own.
+- Plots showing the same quantity share one axes where possible; otherwise they use the same limits. Plots compared side by side share one color scale or each keep their own (e.g. a per-gene percentile), as the comparison needs, decided with the user; scales that differ are made explicit (a colorbar each, stated in the legend). Within a panel only the outer axes are labelled; each lettered panel labels its own.
 - A shared key is drawn once, with the first panel (in reading order) that uses it.
 - One key per encoding (color, shape, size), labelled with what it shows ("Cell type") where space allows, rather than repeating it in a title.
 
@@ -57,7 +57,7 @@
 ## Plot types
 - **Embeddings:** `sf.embedding_axes`; when the same embedding repeats, its indicator appears once.
 - **Spatial plots and images:** no axes, equal aspect, a scale bar instead of a magnification. Each image identifies exactly what it shows, stains and overlays, including an image under an overlay ("Cell types over DAPI"), by title, key or a color tied to a key; stains are named by what they mark and by their markers ("Membrane (ATP1A1/CD45/E-cadherin)"). A segmentation is shown over the stains it was computed from.
-- **Image display:** each channel is scaled linearly between a low and a high percentile of its intensities, chosen per dataset and kept in the conventions file (Color and marks); nonlinear scaling only where linear scaling can't show the structure. Adjustments apply to the whole image (Nature). Images that are compared share one scaling. Each channel runs from black to its color and the channels are added (spatialdata-plot's `render_images` with a `palette` and one `norm` per channel); channel colors stay distinguishable for color-blind readers and bright enough to read on black.
+- **Image display:** intensities scaled linearly between a low and a high percentile, set per dataset in the conventions file (Color and marks); nonlinear only where linear scaling can't show the structure. Adjustments apply to the whole image (Nature).
 - **Categorical keys:** key marks match the plot's marks.
 - **Continuous color:** viridis; where most values are near zero (e.g. dot plots), a light-to-dark single hue (e.g. `Reds`); diverging values (correlations, fold changes) RdBu_r centered at 0. `sf.colorbar`, vertical by default; numeric ends are exact values.
 - **Background cells:** light grey (#d3d3d3), drawn first.

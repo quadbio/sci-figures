@@ -49,7 +49,7 @@ Agree the format: main, Extended Data or supplementary; width and approximate he
 Cut panels that don't advance the message. Resolve open questions (n, tests, subsets), then compute and save all plotted data.
 
 ### 2. Build
-Plots of AnnData and SpatialData objects use scverse's own plotting functions where they apply (`sc.pl.*`; spatialdata-plot's `render_images`, `render_shapes` and `render_points`), restyled with scifig; matplotlib primitives (`ax.scatter`, `LineCollection`, `imshow`) draw only what those can't, with a comment in the script saying why.
+Prefer scverse's plotting functions (scanpy, spatialdata-plot) where they apply, restyled with scifig; any deviation needs a reason, stated in the script.
 
 Find the repo's colors (`references/style.md`, Color and marks) and the conventions of existing figure scripts; see `examples/fig1_moscot.py` (plots and a schematic) and `examples/fig2_spatial.py` (images and spatial data). The recurring elements:
 ```python

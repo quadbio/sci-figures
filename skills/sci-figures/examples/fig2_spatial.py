@@ -42,6 +42,7 @@ for name in ("tissue", "niches"):  # sopa's tissue pieces; the niche polygons
     sdata.shapes[name] = sd.read_zarr(DATA / f"{name}.zarr")[name]
 MIN_TRANSCRIPTS = 10  # as in fig2_spatial_data.py
 
+# this example's own conventions file, beside the script (a repo keeps its file where style.md, Color and marks, says)
 conventions_file = yaml.safe_load((Path(__file__).parent / "resources/figure_conventions.yaml").read_text())
 conventions = conventions_file["colors"]
 STAIN_PERCENTILES = conventions_file["image_display"]["stain_percentiles"]
